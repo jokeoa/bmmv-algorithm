@@ -97,45 +97,50 @@ public class BoyerMooreMajorityVote {
             context.getMetrics().startTimer();
         }
 
-        if (arr == null || arr.length == 0) {
+        try {
+            // Handle null or empty array
+            if (arr == null || arr.length == 0) {
+                return null;
+            }
+
+            // Single element array is always the majority
+            if (arr.length == 1) {
+                return arr[0];
+            }
+
+            // Use streaming approach if enabled
+            if (context != null && context.isStreamProcessingEnabled()) {
+                return findMajorityElementStream(arr, context);
+            }
+
+            // Find candidate
+            int candidate = arr[0];
+            int count = 1;
+
+            for (int i = 1; i < arr.length; i++) {
+                if (context != null && context.getMetrics() != null) {
+                    context.getMetrics().incrementComparisons();
+                }
+
+                if (count == 0) {
+                    candidate = arr[i];
+                    count = 1;
+                    if (context != null && context.getMetrics() != null) {
+                        context.getMetrics().incrementCandidateChanges();
+                    }
+                } else if (arr[i] == candidate) {
+                    count++;
+                } else {
+                    count--;
+                }
+            }
+
+            return candidate;
+        } finally {
             if (context != null && context.getMetrics() != null) {
                 context.getMetrics().stopTimer();
             }
-            return null;
         }
-
-        // Use streaming approach if enabled
-        if (context != null && context.isStreamProcessingEnabled()) {
-            return findMajorityElementStream(arr, context);
-        }
-
-        // Find candidate
-        int candidate = arr[0];
-        int count = 1;
-
-        for (int i = 1; i < arr.length; i++) {
-            if (context != null && context.getMetrics() != null) {
-                context.getMetrics().incrementComparisons();
-            }
-
-            if (count == 0) {
-                candidate = arr[i];
-                count = 1;
-                if (context != null && context.getMetrics() != null) {
-                    context.getMetrics().incrementCandidateChanges();
-                }
-            } else if (arr[i] == candidate) {
-                count++;
-            } else {
-                count--;
-            }
-        }
-
-        if (context != null && context.getMetrics() != null) {
-            context.getMetrics().stopTimer();
-        }
-
-        return candidate;
     }
 
     /**
@@ -143,23 +148,25 @@ public class BoyerMooreMajorityVote {
      * Processes elements one at a time without additional memory allocation.
      */
     private static Integer findMajorityElementStream(int[] arr, Context context) {
+        
         class State {
             int candidate = arr[0];
             int count = 1;
         }
 
         State state = new State();
+        MetricsCollector metrics = context != null ? context.getMetrics() : null;
 
         IntStream.range(1, arr.length).forEach(i -> {
-            if (context.getMetrics() != null) {
-                context.getMetrics().incrementComparisons();
+            if (metrics != null) {
+                metrics.incrementComparisons();
             }
 
             if (state.count == 0) {
                 state.candidate = arr[i];
                 state.count = 1;
-                if (context.getMetrics() != null) {
-                    context.getMetrics().incrementCandidateChanges();
+                if (metrics != null) {
+                    metrics.incrementCandidateChanges();
                 }
             } else if (arr[i] == state.candidate) {
                 state.count++;
@@ -168,8 +175,8 @@ public class BoyerMooreMajorityVote {
             }
         });
 
-        if (context.getMetrics() != null) {
-            context.getMetrics().stopTimer();
+        if (metrics != null) {
+            metrics.stopTimer();
         }
 
         return state.candidate;
@@ -179,50 +186,67 @@ public class BoyerMooreMajorityVote {
      * Memory-efficient iterator-based implementation.
      * Useful for processing large datasets that don't fit in memory.
      *
-     * @param elements iterator over elements
+     * @param elements iterator over elements (must not be null)
      * @param context optional context with metrics and optimizations
-     * @return the majority element candidate
+     * @return the majority element candidate, or null if iterator is null/empty
+     * @throws NullPointerException if elements iterator is null
      */
     public static Integer findMajorityElementIterator(Iterator<Integer> elements, Context context) {
+        if (elements == null) {
+            throw new NullPointerException("Iterator cannot be null");
+        }
+
         if (context != null && context.getMetrics() != null) {
             context.getMetrics().startTimer();
         }
 
-        if (!elements.hasNext()) {
+        try {
+            if (!elements.hasNext()) {
+                return null;
+            }
+
+            Integer first = elements.next();
+            if (first == null) {
+                throw new NullPointerException("Iterator contains null elements");
+            }
+
+            // Single element case
+            if (!elements.hasNext()) {
+                return first;
+            }
+
+            int candidate = first;
+            int count = 1;
+
+            while (elements.hasNext()) {
+                Integer current = elements.next();
+                if (current == null) {
+                    throw new NullPointerException("Iterator contains null elements");
+                }
+
+                if (context != null && context.getMetrics() != null) {
+                    context.getMetrics().incrementComparisons();
+                }
+
+                if (count == 0) {
+                    candidate = current;
+                    count = 1;
+                    if (context != null && context.getMetrics() != null) {
+                        context.getMetrics().incrementCandidateChanges();
+                    }
+                } else if (current.equals(candidate)) {
+                    count++;
+                } else {
+                    count--;
+                }
+            }
+
+            return candidate;
+        } finally {
             if (context != null && context.getMetrics() != null) {
                 context.getMetrics().stopTimer();
             }
-            return null;
         }
-
-        int candidate = elements.next();
-        int count = 1;
-
-        while (elements.hasNext()) {
-            int current = elements.next();
-
-            if (context != null && context.getMetrics() != null) {
-                context.getMetrics().incrementComparisons();
-            }
-
-            if (count == 0) {
-                candidate = current;
-                count = 1;
-                if (context != null && context.getMetrics() != null) {
-                    context.getMetrics().incrementCandidateChanges();
-                }
-            } else if (current == candidate) {
-                count++;
-            } else {
-                count--;
-            }
-        }
-
-        if (context != null && context.getMetrics() != null) {
-            context.getMetrics().stopTimer();
-        }
-
-        return candidate;
     }
 
     /**
@@ -258,14 +282,15 @@ public class BoyerMooreMajorityVote {
         }
 
         // Verify candidate with early termination optimization
-        int count = 0;
-        int threshold = arr.length / 2;
+        // Use long to prevent integer overflow for large arrays
+        long count = 0;
+        long threshold = arr.length / 2L;
 
-        for (int i = 0; i < arr.length; i++) {
+        for (int num : arr) {
             if (context != null && context.getMetrics() != null) {
                 context.getMetrics().incrementComparisons();
             }
-            if (arr[i] == candidate) {
+            if (num == candidate) {
                 count++;
                 // Early termination: if we've already found majority, stop
                 if (context != null && context.isEarlyTerminationEnabled() && count > threshold) {
