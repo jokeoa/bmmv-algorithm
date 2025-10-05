@@ -22,7 +22,7 @@ public class BoyerMooreMajorityVoteContextTest {
 
         assertEquals(3, result);
         assertTrue(metrics.getComparisons() > 0, "Should have recorded comparisons");
-        assertTrue(metrics.getExecutionTimeMs() >= 0, "Should have recorded execution time");
+        assertTrue(metrics.getExecutionTimeMillis() >= 0, "Should have recorded execution time");
     }
 
     @Test
