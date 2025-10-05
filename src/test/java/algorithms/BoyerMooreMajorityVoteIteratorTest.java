@@ -56,7 +56,7 @@ public class BoyerMooreMajorityVoteIteratorTest {
 
         assertEquals(5, result);
         assertTrue(metrics.getComparisons() > 0);
-        assertTrue(metrics.getExecutionTimeMs() >= 0);
+        assertTrue(metrics.getExecutionTimeMillis() >= 0);
     }
 
     @Test

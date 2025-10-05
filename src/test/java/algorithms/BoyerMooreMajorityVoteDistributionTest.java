@@ -45,8 +45,8 @@ public class BoyerMooreMajorityVoteDistributionTest {
         Integer result = BoyerMooreMajorityVote.findAndVerifyMajorityElement(arr, context);
 
         assertEquals(majorityValue, result);
-        System.out.printf("Random distribution: %d ms, %d comparisons, %d candidate changes%n",
-            metrics.getExecutionTimeMs(), metrics.getComparisons(), metrics.getCandidateChanges());
+        System.out.printf("Random distribution: %f ms, %d comparisons, %d candidate changes%n",
+            metrics.getExecutionTimeMillis(), metrics.getComparisons(), metrics.getCandidateChanges());
     }
 
     /**
@@ -80,8 +80,8 @@ public class BoyerMooreMajorityVoteDistributionTest {
         Integer result = BoyerMooreMajorityVote.findAndVerifyMajorityElement(arr, context);
 
         assertEquals(majorityValue, result);
-        System.out.printf("Sorted distribution: %d ms, %d comparisons, %d candidate changes%n",
-            metrics.getExecutionTimeMs(), metrics.getComparisons(), metrics.getCandidateChanges());
+        System.out.printf("Sorted distribution: %f ms, %d comparisons, %d candidate changes%n",
+            metrics.getExecutionTimeMillis(), metrics.getComparisons(), metrics.getCandidateChanges());
     }
 
     /**
@@ -116,8 +116,8 @@ public class BoyerMooreMajorityVoteDistributionTest {
         Integer result = BoyerMooreMajorityVote.findAndVerifyMajorityElement(arr, context);
 
         assertEquals(majorityValue, result);
-        System.out.printf("Reverse-sorted distribution: %d ms, %d comparisons, %d candidate changes%n",
-            metrics.getExecutionTimeMs(), metrics.getComparisons(), metrics.getCandidateChanges());
+        System.out.printf("Reverse-sorted distribution: %f ms, %d comparisons, %d candidate changes%n",
+            metrics.getExecutionTimeMillis(), metrics.getComparisons(), metrics.getCandidateChanges());
     }
 
     /**
@@ -156,8 +156,8 @@ public class BoyerMooreMajorityVoteDistributionTest {
         Integer result = BoyerMooreMajorityVote.findAndVerifyMajorityElement(arr, context);
 
         assertEquals(majorityValue, result);
-        System.out.printf("Nearly-sorted distribution: %d ms, %d comparisons, %d candidate changes%n",
-            metrics.getExecutionTimeMs(), metrics.getComparisons(), metrics.getCandidateChanges());
+        System.out.printf("Nearly-sorted distribution: %f ms, %d comparisons, %d candidate changes%n",
+            metrics.getExecutionTimeMillis(), metrics.getComparisons(), metrics.getCandidateChanges());
     }
 
     /**
@@ -183,8 +183,8 @@ public class BoyerMooreMajorityVoteDistributionTest {
 
         assertEquals(value, result);
         assertEquals(0, metrics.getCandidateChanges(), "No candidate changes in uniform distribution");
-        System.out.printf("Uniform distribution: %d ms, %d comparisons, %d candidate changes%n",
-            metrics.getExecutionTimeMs(), metrics.getComparisons(), metrics.getCandidateChanges());
+        System.out.printf("Uniform distribution: %f ms, %d comparisons, %d candidate changes%n",
+            metrics.getExecutionTimeMillis(), metrics.getComparisons(), metrics.getCandidateChanges());
     }
 
     /**
@@ -218,8 +218,8 @@ public class BoyerMooreMajorityVoteDistributionTest {
         Integer result = BoyerMooreMajorityVote.findAndVerifyMajorityElement(arr, context);
 
         assertEquals(value1, result);
-        System.out.printf("Bimodal distribution: %d ms, %d comparisons, %d candidate changes%n",
-            metrics.getExecutionTimeMs(), metrics.getComparisons(), metrics.getCandidateChanges());
+        System.out.printf("Bimodal distribution: %f ms, %d comparisons, %d candidate changes%n",
+            metrics.getExecutionTimeMillis(), metrics.getComparisons(), metrics.getCandidateChanges());
     }
 
     /**
@@ -252,8 +252,8 @@ public class BoyerMooreMajorityVoteDistributionTest {
         Integer result = BoyerMooreMajorityVote.findAndVerifyMajorityElement(arr, context);
 
         assertEquals(majorityValue, result);
-        System.out.printf("Sparse distribution: %d ms, %d comparisons, %d candidate changes%n",
-            metrics.getExecutionTimeMs(), metrics.getComparisons(), metrics.getCandidateChanges());
+        System.out.printf("Sparse distribution: %f ms, %d comparisons, %d candidate changes%n",
+            metrics.getExecutionTimeMillis(), metrics.getComparisons(), metrics.getCandidateChanges());
     }
 
     /**
@@ -302,8 +302,8 @@ public class BoyerMooreMajorityVoteDistributionTest {
         Integer result = BoyerMooreMajorityVote.findAndVerifyMajorityElement(arr, context);
 
         assertEquals(majorityValue, result);
-        System.out.printf("Clustered distribution: %d ms, %d comparisons, %d candidate changes%n",
-            metrics.getExecutionTimeMs(), metrics.getComparisons(), metrics.getCandidateChanges());
+        System.out.printf("Clustered distribution: %f ms, %d comparisons, %d candidate changes%n",
+            metrics.getExecutionTimeMillis(), metrics.getComparisons(), metrics.getCandidateChanges());
     }
 
     /**
@@ -349,8 +349,8 @@ public class BoyerMooreMajorityVoteDistributionTest {
 
         assertEquals(majorityValue, result);
         assertTrue(metrics.getCandidateChanges() > 0, "Should have many candidate changes");
-        System.out.printf("Alternating pattern: %d ms, %d comparisons, %d candidate changes%n",
-            metrics.getExecutionTimeMs(), metrics.getComparisons(), metrics.getCandidateChanges());
+        System.out.printf("Alternating pattern: %f ms, %d comparisons, %d candidate changes%n",
+            metrics.getExecutionTimeMillis(), metrics.getComparisons(), metrics.getCandidateChanges());
     }
 
     /**

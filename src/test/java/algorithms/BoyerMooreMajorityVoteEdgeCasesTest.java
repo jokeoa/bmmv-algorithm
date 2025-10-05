@@ -113,7 +113,7 @@ public class BoyerMooreMajorityVoteEdgeCasesTest {
             .build();
 
         Integer streamResult = BoyerMooreMajorityVote.findMajorityElement(arr, streamContext);
-        Integer normalResult = BoyerMooreMajorityVote.findMajorityElement(arr, null);
+        Integer normalResult = BoyerMooreMajorityVote.findMajorityElement(arr, (BoyerMooreMajorityVote.Context) null);
 
         assertEquals(normalResult, streamResult, "Stream and normal processing should give same result");
     }
@@ -192,7 +192,7 @@ public class BoyerMooreMajorityVoteEdgeCasesTest {
         BoyerMooreMajorityVote.findAndVerifyMajorityElement(arr, context);
 
         assertTrue(metrics.getComparisons() > 0, "Should record comparisons");
-        assertTrue(metrics.getExecutionTimeMs() >= 0, "Should record execution time");
+        assertTrue(metrics.getExecutionTimeMillis() >= 0, "Should record execution time");
         assertTrue(metrics.getCandidateChanges() >= 0, "Should record candidate changes");
     }
 

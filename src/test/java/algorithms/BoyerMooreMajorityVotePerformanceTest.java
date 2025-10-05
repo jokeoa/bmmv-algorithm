@@ -34,9 +34,9 @@ public class BoyerMooreMajorityVotePerformanceTest {
         Integer result = BoyerMooreMajorityVote.findAndVerifyMajorityElement(arr, context);
 
         assertNotNull(result);
-        assertTrue(metrics.getExecutionTimeMs() >= 0);
-        System.out.printf("Size 10²: %d ms, %d comparisons%n",
-            metrics.getExecutionTimeMs(), metrics.getComparisons());
+        assertTrue(metrics.getExecutionTimeMillis() >= 0);
+        System.out.printf("Size 10²: %f ms, %d comparisons%n",
+            metrics.getExecutionTimeMillis(), metrics.getComparisons());
     }
 
     /**
@@ -56,9 +56,9 @@ public class BoyerMooreMajorityVotePerformanceTest {
         Integer result = BoyerMooreMajorityVote.findAndVerifyMajorityElement(arr, context);
 
         assertNotNull(result);
-        assertTrue(metrics.getExecutionTimeMs() >= 0);
-        System.out.printf("Size 10³: %d ms, %d comparisons%n",
-            metrics.getExecutionTimeMs(), metrics.getComparisons());
+        assertTrue(metrics.getExecutionTimeMillis() >= 0);
+        System.out.printf("Size 10³: %f ms, %d comparisons%n",
+            metrics.getExecutionTimeMillis(), metrics.getComparisons());
     }
 
     /**
@@ -78,9 +78,9 @@ public class BoyerMooreMajorityVotePerformanceTest {
         Integer result = BoyerMooreMajorityVote.findAndVerifyMajorityElement(arr, context);
 
         assertNotNull(result);
-        assertTrue(metrics.getExecutionTimeMs() >= 0);
-        System.out.printf("Size 10⁴: %d ms, %d comparisons%n",
-            metrics.getExecutionTimeMs(), metrics.getComparisons());
+        assertTrue(metrics.getExecutionTimeMillis() >= 0);
+        System.out.printf("Size 10⁴: %f ms, %d comparisons%n",
+            metrics.getExecutionTimeMillis(), metrics.getComparisons());
     }
 
     /**
@@ -100,9 +100,9 @@ public class BoyerMooreMajorityVotePerformanceTest {
         Integer result = BoyerMooreMajorityVote.findAndVerifyMajorityElement(arr, context);
 
         assertNotNull(result);
-        assertTrue(metrics.getExecutionTimeMs() >= 0);
-        System.out.printf("Size 10⁵: %d ms, %d comparisons%n",
-            metrics.getExecutionTimeMs(), metrics.getComparisons());
+        assertTrue(metrics.getExecutionTimeMillis() >= 0);
+        System.out.printf("Size 10⁵: %f ms, %d comparisons%n",
+            metrics.getExecutionTimeMillis(), metrics.getComparisons());
     }
 
     /**
@@ -166,8 +166,8 @@ public class BoyerMooreMajorityVotePerformanceTest {
 
         assertEquals(999, result);
         assertTrue(metrics.getCandidateChanges() > 0);
-        System.out.printf("Worst case: %d ms, %d candidate changes%n",
-            metrics.getExecutionTimeMs(), metrics.getCandidateChanges());
+        System.out.printf("Worst case: %f ms, %d candidate changes%n",
+            metrics.getExecutionTimeMillis(), metrics.getCandidateChanges());
     }
 
     /**
@@ -192,8 +192,8 @@ public class BoyerMooreMajorityVotePerformanceTest {
 
         assertEquals(42, result);
         assertEquals(0, metrics.getCandidateChanges(), "No candidate changes in best case");
-        System.out.printf("Best case: %d ms, %d candidate changes%n",
-            metrics.getExecutionTimeMs(), metrics.getCandidateChanges());
+        System.out.printf("Best case: %f ms, %d candidate changes%n",
+            metrics.getExecutionTimeMillis(), metrics.getCandidateChanges());
     }
 
     /**
@@ -233,8 +233,8 @@ public class BoyerMooreMajorityVotePerformanceTest {
         long timeWithoutET = System.nanoTime() - startWithoutET;
 
         assertEquals(resultWithET, resultWithoutET);
-        System.out.printf("Early termination: %d ms vs %d ms (%.2fx speedup)%n",
-            metricsWithET.getExecutionTimeMs(), metricsWithoutET.getExecutionTimeMs(),
+        System.out.printf("Early termination: %f ms vs %f ms (%.2fx speedup)%n",
+            metricsWithET.getExecutionTimeMillis(), metricsWithoutET.getExecutionTimeMillis(),
             (double) timeWithoutET / timeWithET);
     }
 
@@ -263,8 +263,8 @@ public class BoyerMooreMajorityVotePerformanceTest {
         Integer normalResult = BoyerMooreMajorityVote.findMajorityElement(arr.clone(), normalContext);
 
         assertEquals(normalResult, streamResult);
-        System.out.printf("Stream vs Normal: %d ms vs %d ms%n",
-            streamMetrics.getExecutionTimeMs(), normalMetrics.getExecutionTimeMs());
+        System.out.printf("Stream vs Normal: %f ms vs %f ms%n",
+            streamMetrics.getExecutionTimeMillis(), normalMetrics.getExecutionTimeMillis());
     }
 
     /**
@@ -293,8 +293,8 @@ public class BoyerMooreMajorityVotePerformanceTest {
         long duration = System.nanoTime() - start;
 
         assertEquals(888, result);
-        System.out.printf("Iterator performance (50k elements): %d ms%n",
-            metrics.getExecutionTimeMs());
+        System.out.printf("Iterator performance (50k elements): %f ms%n",
+            metrics.getExecutionTimeMillis());
     }
 
     /**

@@ -52,7 +52,7 @@ public class BoyerMooreMajorityVoteIntegrationTest {
 
         // Verify metrics were collected
         assertTrue(metrics.getComparisons() > 0);
-        assertTrue(metrics.getExecutionTimeMs() >= 0);
+        assertTrue(metrics.getExecutionTimeMillis() >= 0);
 
         // Verify with context
         MetricsCollector verifyMetrics = new MetricsCollector();
@@ -107,7 +107,7 @@ public class BoyerMooreMajorityVoteIntegrationTest {
         assertTrue(isValid);
 
         // Compare with non-stream approach
-        Integer normalResult = BoyerMooreMajorityVote.findMajorityElement(arr, null);
+        Integer normalResult = BoyerMooreMajorityVote.findMajorityElement(arr, (BoyerMooreMajorityVote.Context) null);
         assertEquals(normalResult, candidate);
     }
 
@@ -366,10 +366,10 @@ public class BoyerMooreMajorityVoteIntegrationTest {
 
         // Check metrics
         assertTrue(metrics.getComparisons() > 0);
-        assertTrue(metrics.getExecutionTimeMs() >= 0);
+        assertTrue(metrics.getExecutionTimeMillis() >= 0);
 
-        System.out.printf("Large-scale integration test: %d elements in %d ms%n",
-            size, metrics.getExecutionTimeMs());
+        System.out.printf("Large-scale integration test: %d elements in %f ms%n",
+            size, metrics.getExecutionTimeMillis());
     }
 
     @Test
@@ -385,7 +385,7 @@ public class BoyerMooreMajorityVoteIntegrationTest {
         assertDoesNotThrow(() ->
             BoyerMooreMajorityVote.findMajorityElement(arr, (BoyerMooreMajorityVote.Context) null));
         assertDoesNotThrow(() ->
-            BoyerMooreMajorityVote.findAndVerifyMajorityElement(arr, null));
+            BoyerMooreMajorityVote.findAndVerifyMajorityElement(arr, (BoyerMooreMajorityVote.Context) null));
         assertDoesNotThrow(() ->
             BoyerMooreMajorityVote.verifyCandidate(arr, 1, null));
     }
